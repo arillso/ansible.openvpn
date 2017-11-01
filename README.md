@@ -2,6 +2,8 @@
 
 ## Description
 
+Configurate your OpenVPN Client
+
 ## Installation
 
 ```
@@ -10,14 +12,24 @@ $ ansible-galaxy install arillso.openvpn
 
 ## Requirements
 
+None
+
 ## Role Variables
 
 | Variable             | Default     | Comments (type)                                   |
 | :---                 | :---        | :---                                              |
-| | | |
-| | | |
+| openvpn_name | openvpn | |
+| openvpn_remote | | |
+| openvpn_route | [] | |
+| openvpn_verifyx509name | | |
+| openvpn_cert | | |
+| openvpn_tlsauth | | |
+| openvpn_ca | | |
+| openvpn_key | | |
 
 ## Dependencies
+
+None
 
 ## Example Playbook
 

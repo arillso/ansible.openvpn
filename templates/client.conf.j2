@@ -1,0 +1,21 @@
+# Zertifikate
+ca /etc/openvpn/{{ openvpn_name }}/ca.crt
+cert /etc/openvpn/{{ openvpn_name }}/{{ ansible_fqdn }}.crt
+key  /etc/openvpn/{{ openvpn_name }}/{{ ansible_fqdn }}.key
+tls-auth  /etc/openvpn/{{ openvpn_name }}/tls-auth.key 1
+
+client
+proto udp
+dev tun
+remote {{ openvpn_remote }} 
+
+{% for route in openvpn_route %}
+route {{ route }}
+{% endfor %}
+
+verify-x509-name "{{ openvpn_verifyx509name }}"
+comp-lzo
+cipher AES-128-CBC
+auth SHA256
+
+key-direction 1

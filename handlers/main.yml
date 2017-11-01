@@ -1,2 +1,16 @@
 ---
 # handlers file for arillso.openvpn
+
+- name: restart openvpn
+  become: true
+  service: 
+    name: openvpn
+    state: restarted
+    enabled: yes
+
+- name: start openvpn
+  become: true
+  service: 
+    name: openvpn
+    state: started
+    enabled: yes

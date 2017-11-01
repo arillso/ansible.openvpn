@@ -1,0 +1,7 @@
+---
+# vars file for arillso.openvpn
+
+openvpn_packages:
+    - openvpn
+    - udev
+    - openssl
