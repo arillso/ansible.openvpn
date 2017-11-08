@@ -3,14 +3,14 @@
 
 - name: restart openvpn
   become: true
-  service: 
+  service:
     name: openvpn
     state: restarted
     enabled: yes
 
 - name: start openvpn
   become: true
-  service: 
+  service:
     name: openvpn
     state: started
     enabled: yes

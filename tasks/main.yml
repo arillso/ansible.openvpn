@@ -19,7 +19,6 @@
   become: true
   package:
     name: "{{ item }}"
-    state: latest
   with_items: "{{ openvpn_packages }}"
   tags:
     - packages
