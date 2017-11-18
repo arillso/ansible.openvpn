@@ -3,11 +3,11 @@
 
 openvpn_name: openvpn
 
-openvpn_remote: 
-  
+openvpn_remote:
+
 openvpn_route: []
 
-openvpn_verifyx509name: 
+openvpn_verifyx509name:
 
 openvpn_cert: |
 
