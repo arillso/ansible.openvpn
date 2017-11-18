@@ -10,7 +10,7 @@
         - "{{ ansible_os_family }}.yml"
         - "defaults.yml"
       paths:
-        -  "vars"
+        - "vars"
   tags:
     - configuration
     - packages
@@ -39,10 +39,10 @@
     dest: "/etc/openvpn/{{ openvpn_name }}/{{ item.dest }}"
     mode: 0400
   with_items:
-    - { src: 'ca', dest: 'ca.crt' }
-    - { src: 'cert', dest: '{{ ansible_fqdn }}.crt' }
-    - { src: 'key', dest: '{{ ansible_fqdn }}.key' }
-    - { src: 'tls-auth', dest: 'tls-auth.key' }
+    - {src: 'ca', dest: 'ca.crt'}
+    - {src: 'cert', dest: '{{ ansible_fqdn }}.crt'}
+    - {src: 'key', dest: '{{ ansible_fqdn }}.key'}
+    - {src: 'tls-auth', dest: 'tls-auth.key'}
   notify: restart openvpn
   tags:
     - configuration
