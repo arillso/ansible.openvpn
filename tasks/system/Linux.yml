@@ -1,0 +1,44 @@
+---
+# tasks file for arillso.openvpn
+
+- name: install openvpn
+  become: true
+  package:
+    name: "{{ item }}"
+  with_items: "{{ openvpn_packages }}"
+  tags:
+    - packages
+
+- name: Create {{ openvpn_name }} folder
+  become: true
+  file:
+    path: "/etc/openvpn/{{ openvpn_name }}"
+    state: directory
+    mode: 0600
+  tags:
+    - configuration
+
+- name: Create OpenVPN config file
+  become: true
+  template:
+    src: "{{ item.src }}.j2"
+    dest: "/etc/openvpn/{{ openvpn_name }}/{{ item.dest }}"
+    mode: 0400
+  with_items:
+    - {src: 'ca', dest: 'ca.crt'}
+    - {src: 'cert', dest: '{{ ansible_fqdn }}.crt'}
+    - {src: 'key', dest: '{{ ansible_fqdn }}.key'}
+    - {src: 'tls-auth', dest: 'tls-auth.key'}
+  notify: restart openvpn
+  tags:
+    - configuration
+
+- name: Create OpenVPN config file
+  become: true
+  template:
+    src: client.conf.j2
+    dest: "/etc/openvpn/{{ openvpn_name }}.conf"
+    mode: 0640
+  notify: restart openvpn
+  tags:
+    - configuration
