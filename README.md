@@ -41,10 +41,15 @@ None
 
 ## Changelog
 
+### 1.0
+
+* inital role
+* windows support
+
 ## Author
 
 * [Simon Bärlocher](https://sbaerlocher.ch)
- 
+
 ## License
 
 This project is under the MIT License. See the [LICENSE](https://sbaerlo.ch/licence) file for the full license text.

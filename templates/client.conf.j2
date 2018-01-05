@@ -1,21 +1,41 @@
-# Zertifikate
-ca /etc/openvpn/{{ openvpn_name }}/ca.crt
-cert /etc/openvpn/{{ openvpn_name }}/{{ ansible_fqdn }}.crt
-key  /etc/openvpn/{{ openvpn_name }}/{{ ansible_fqdn }}.key
-tls-auth  /etc/openvpn/{{ openvpn_name }}/tls-auth.key 1
-
-client
-proto udp
 dev tun
-remote {{ openvpn_remote }} 
+persist-tun
+persist-key
+cipher AES-256-CBC
+ncp-ciphers AES-256-GCM:AES-128-GCM
+auth SHA256
+tls-client
+client
+resolv-retry infinite
+auth-user-pass
+remote-cert-tls server
+remote {{ openvpn_remote }}
 
 {% for route in openvpn_route %}
 route {{ route }}
 {% endfor %}
 
-verify-x509-name "{{ openvpn_verifyx509name }}"
-comp-lzo
-cipher AES-128-CBC
-auth SHA256
+{% if openvpn_ca is defined %}
+<ca>
+{{ openvpn_ca }}
+</ca>
+{% endif %}
 
+{% if openvpn_cert is defined %}
+<ca>
+{{ openvpn_cert }}
+</ca>
+{% endif %}
+
+{% if openvpn_key is defined %}
+<key>
+{{ openvpn_key }}
+</key>
+{% endif %}
+
+{% if openvpn_tlsauth is defined %}
+<tls-auth>
+{{ openvpn_tlsauth }}
+</tls-auth>
 key-direction 1
+{% endif %}

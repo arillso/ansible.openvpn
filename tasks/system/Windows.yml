@@ -1,0 +1,16 @@
+---
+# tasks file for arillso.openvpn
+
+- name: Install openvpn
+  win_chocolatey:
+    name: openvpn
+    state: latest
+  tags:
+    - packages
+
+- name: Create OpenVPN config file
+  win_template:
+    src: client.conf.j2
+    dest: "C:\\Program Files\\OpenVPN\\config\\{{ openvpn_name }}"
+  tags:
+    - configuration

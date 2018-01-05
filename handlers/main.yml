@@ -6,11 +6,11 @@
   service:
     name: openvpn
     state: restarted
-    enabled: yes
+    enabled: true
 
 - name: start openvpn
   become: true
   service:
     name: openvpn
     state: started
-    enabled: yes
+    enabled: true
