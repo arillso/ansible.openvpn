@@ -5,8 +5,6 @@ openvpn_name: openvpn
 
 openvpn_remote:
 
-openvpn_route: []
-
 openvpn_verifyx509name:
 
 openvpn_cert: |
@@ -16,3 +14,41 @@ openvpn_tlsauth: |
 openvpn_ca: |
 
 openvpn_key: |
+
+# Default settings (See OpenVPN documentation)
+openvpn_host: "{{inventory_hostname}}"              # The server address
+openvpn_port: 1194
+openvpn_proto: udp
+openvpn_dev: tun
+openvpn_server: 10.17.0.0 255.255.192.0           # Set empty for skip
+openvpn_route_gateway: 10.17.0.1
+openvpn_max_clients: 100
+openvpn_log: /var/log/openvpn/openvpn.log                 # Log's directory
+openvpn_keepalive: "10 60"
+openvpn_ifconfig_pool_persist: ipp.txt
+openvpn_comp_lzo: yes                               # Enable compression
+openvpn_cipher: AES-128-CBC                         # Encryption algorithm
+openvpn_status: /var/log/openvpn/openvpn-status.log
+openvpn_verb: 3
+openvpn_tls_auth: true                            # Enable perfect forward secracyxy
+openvpn_tls_key: "ta.key"
+openvpn_user: nobody
+openvpn_group: nogroup
+openvpn_resolv_retry: infinite
+openvpn_client_to_client: false
+openvpn_topology: subnet
+openvpn_server_options: []
+openvpn_client_options: []
+
+openvpn_push_route:
+  - address:
+    netmask:
+    description:
+
+openvpn_route:
+  - address:
+    netmask:
+    description:
+
+openvpn_rsa_bits: 4096
+openvpn_tls_verify: true

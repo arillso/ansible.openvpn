@@ -4,13 +4,17 @@
 - name: restart openvpn
   become: true
   service:
-    name: openvpn
+    name: "{{ openvpn_service }}"
     state: restarted
-    enabled: true
 
 - name: start openvpn
   become: true
   service:
-    name: openvpn
+    name: "{{ openvpn_service }}"
     state: started
+
+- name: enabled openvpn
+  become: true
+  service:
+    name: "{{ openvpn_service }}"
     enabled: true

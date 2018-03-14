@@ -1,13 +1,47 @@
 ---
 # tasks file for arillso.openvpn
 
+- name: add OS specific variables
+  include_vars: "{{ loop_vars }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+        - "defaults.yml"
+      paths:
+        - "vars"
+  loop_control:
+    loop_var: loop_vars
+  tags:
+    - configuration
+    - packages
+
 - name: install openvpn
   become: true
   package:
-    name: "{{ item }}"
+    name: "{{ loop_packages }}"
+  loop_control:
+    loop_var: loop_packages
   with_items: "{{ openvpn_packages }}"
   tags:
     - packages
+
+- block:
+    - name: Server service name
+      set_fact:
+        openvpn_service: openvpn@server.service
+
+    - name: include server tasks
+      include_tasks: "{{ loop_server }}"
+      with_fileglob:
+        - "server/*"
+      loop_control:
+        loop_var: loop_server
+  when: ansible_server_role == "VPN Gateway"
+  tags:
+    - configuration
 
 - name: Create OpenVPN config file
   become: true
@@ -16,5 +50,6 @@
     dest: "/etc/openvpn/{{ openvpn_name }}.conf"
     mode: 0640
   notify: restart openvpn
+  when: ansible_server_role != "VPN Gateway"
   tags:
     - configuration

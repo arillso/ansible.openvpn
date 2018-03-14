@@ -1,0 +1,13 @@
+---
+# vars file for arillso.openvpn
+
+openvpn_packages:
+  - openvpn
+  - openssl
+
+openvpn_config_dir: "/etc/openvpn"
+openvpn_key_dir: "{{ openvpn_config_dir }}/keys"
+openvpn_client_config_dir: "{{ openvpn_config_dir }}/client-configs"
+openvpn_log_dir: "/var/log/openvpn/"
+
+openvpn_service: openvpn

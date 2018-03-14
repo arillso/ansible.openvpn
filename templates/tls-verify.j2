@@ -1,0 +1,10 @@
+{% if openvpn_client_configs is defined %}
+{% for item in openvpn_client_configs %}
+{{ item.CN }}
+{% endfor %}
+{% endif %}
+{% if openvpn_custom_tls_verify is defined %}
+{% for item in openvpn_custom_tls_verify %}
+{{ item }}
+{% endfor %}
+{% endif %}

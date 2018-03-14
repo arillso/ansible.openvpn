@@ -1,0 +1,9 @@
+---
+# tasks file for arillso.openvpn
+
+- name: certificate | generate dh params
+  become: true
+  command: "openssl dhparam -dsaparam  -out {{ openvpn_key_dir }}/dh.pem {{ openvpn_rsa_bits }}"
+  args:
+    chdir: "{{ openvpn_key_dir }}"
+    creates: dh.pem

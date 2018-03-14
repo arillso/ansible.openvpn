@@ -1,0 +1,88 @@
+---
+# tasks file for arillso.openvpn
+
+- name: configuration | Create openvpn directory
+  become: true
+  file:
+    path: "{{ loop_directory.path }}"
+    state: directory
+    mode: "{{ loop_directory.mode }}"
+    owner: root
+    group: nogroup
+  loop_control:
+    loop_var: loop_directory
+  with_items:
+    - { path: "{{ openvpn_config_dir }}", mode: 550 }
+    - { path: "{{ openvpn_key_dir }}", mode: 440 }
+    - { path: "{{ openvpn_client_config_dir }}", mode: 550 }
+    - { path: "{{ openvpn_log_dir }}", mode: 600 }
+
+- name: configuration | Check if crl.pem exists
+  become: true
+  stat:
+    path: "{{ openvpn_key_dir }}/crl.pem"
+  register: crl_pem_file
+
+- name: configuration | Server
+  become: true
+  template:
+    src: server.conf.j2
+    dest: "{{ openvpn_config_dir }}/server.conf"
+    owner: root
+    group: nogroup
+    mode: 0440
+  notify:
+    - restart openvpn
+
+- name: configuration | enable ipv4 forwarding
+  become: true
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+
+- name: configuration | enable ipv6 forwarding
+  become: true
+  sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: 1
+
+- block:
+
+    - name: configuration | Download verify-cn
+      become: true
+      get_url:
+        url: https://raw.githubusercontent.com/OpenVPN/openvpn/master/sample/sample-scripts/verify-cn
+        dest: /usr/local/sbin/verify-cn
+        checksum: sha256:697A7BB3C90FD111EC96339B7A2FE83A1444D339F38C26CAFDDD0CEE9F332857
+        mode: 0550
+        owner: root
+        group: nogroup
+
+    - name: configuration | Create verify-cn list
+      become: true
+      template:
+        src: tls-verify.j2
+        dest: /etc/openvpn/verify-cn
+        owner: root
+        group: nogroup
+        mode: 0440
+      notify:
+        - restart openvpn
+
+  when: openvpn_tls_verify
+
+- name: configuration | Create client configs
+  become: true
+  template:
+    src: client-configs.j2
+    dest: "/etc/openvpn/client-configs/{{ loop_client_configs.CN }}"
+    owner: root
+    group: nogroup
+    mode: 0440
+  with_items:
+    - "{{ openvpn_client_configs }}"
+  when: openvpn_client_configs is defined
+  loop_control:
+    loop_var: loop_client_configs
+  notify:
+    - restart openvpn

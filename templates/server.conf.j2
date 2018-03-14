@@ -1,0 +1,92 @@
+# {{ ansible_managed }}
+
+{% if openvpn_local is defined -%}
+local {{ openvpn_local }}
+{% endif %}
+ 
+port {{ openvpn_port }}
+proto {{ openvpn_proto }}
+cipher {{ openvpn_cipher }}
+
+dev {{ openvpn_dev }}
+
+ca {{openvpn_key_dir}}/ca.crt
+cert {{openvpn_key_dir}}/{{ ansible_hostname }}.crt
+key {{openvpn_key_dir}}/{{ ansible_hostname }}.key  # This file should be kept secret
+dh {{openvpn_key_dir}}/dh.pem
+
+{% if openvpn_tls_auth -%}
+tls-auth {{ openvpn_key_dir }}/{{ openvpn_tls_key }}
+key-direction 0
+{% endif %}
+
+{% if openvpn_client_config_dir is defined -%}
+client-config-dir {{ openvpn_client_config_dir }}
+{% endif %}
+
+{% if openvpn_topology is defined -%}
+topology {{ openvpn_topology }}
+{% endif %}
+
+{% if openvpn_server %}
+server {{ openvpn_server }}
+{% endif %}
+
+{% if openvpn_route is defined %}
+{% for s in openvpn_route %}
+route {{ s.address }} {{ s.netmask }} # {{ s.description }}
+{% endfor %}
+{% endif %}
+
+{% if openvpn_push_route is defined %}
+{% for s in openvpn_push_route %}
+push "route {{ s.address }} {{ s.netmask }}" # {{ s.description }}
+{% endfor %}
+{% endif %}
+ 
+ifconfig-pool-persist {{openvpn_ifconfig_pool_persist}}
+keepalive {{ openvpn_keepalive }}
+ 
+{% if openvpn_comp_lzo -%}
+tls-server
+comp-lzo
+{% else -%}
+;comp-lzo
+{% endif %}
+
+persist-key
+persist-tun
+status {{ openvpn_status }}
+{% if openvpn_log %}
+log-append {{ openvpn_log }}
+verb {{ openvpn_verb }}
+{% endif %}
+
+{% if openvpn_client_to_client %}
+client-to-client
+{% endif %}
+
+{% if openvpn_user -%}
+user {{openvpn_user}}
+{% endif %}
+{% if openvpn_group -%}
+group {{ openvpn_group }}
+{% endif %}
+
+auth SHA256
+
+{% if openvpn_client_config_dir is defined -%}
+# Client configuration directory.
+client-config-dir {{ openvpn_client_config_dir }}
+{% endif %}
+
+{% if crl_pem_file.stat.exists %}
+crl-verify {{openvpn_keydir}}/crl.pem
+{% endif %}
+
+{% if openvpn_tls_verify %}
+tls-verify "/usr/local/sbin/verify-cn /etc/openvpn/verify-cn"
+script-security 2
+{% endif %}
+
+route-gateway {{ openvpn_route_gateway }}
