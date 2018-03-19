@@ -20,8 +20,8 @@ openvpn_host: "{{inventory_hostname}}"              # The server address
 openvpn_port: 1194
 openvpn_proto: udp
 openvpn_dev: tun
-openvpn_server: 10.17.0.0 255.255.192.0           # Set empty for skip
-openvpn_route_gateway: 10.17.0.1
+openvpn_server: 10.16.0.0 255.255.192.0           # Set empty for skip
+openvpn_route_gateway: 10.16.0.1
 openvpn_max_clients: 100
 openvpn_log: /var/log/openvpn/openvpn.log                 # Log's directory
 openvpn_keepalive: "10 60"
