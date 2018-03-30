@@ -1,6 +1,6 @@
 {% if loop_client_configs.ifconfig_push is defined %}
 {% for item in loop_client_configs.ifconfig_push %}
-ifconfig-push "{{ item }}"
+ifconfig-push {{ item }}
 {% endfor %}
 {% endif %}
 {% if loop_client_configs.iroute is defined %}
