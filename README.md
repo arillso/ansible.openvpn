@@ -6,8 +6,8 @@ Configurate your OpenVPN Client
 
 ## Installation
 
-```
-$ ansible-galaxy install arillso.openvpn
+```bash
+ansible-galaxy install arillso.openvpn
 ```
 
 ## Requirements
