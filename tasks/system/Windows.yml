@@ -14,3 +14,21 @@
     dest: "C:\\Program Files\\OpenVPN\\config\\{{ openvpn_name }}"
   tags:
     - configuration
+
+- block:
+
+    - name: Stop and Disabled OpenVPN Service Interactive
+      win_service:
+        name: OpenVPNServiceInteractive
+        start_mode: disabled
+        state: stopped
+
+    - name: Start OpenVPN as Service
+      win_service:
+        name: OpenVPNService
+        start_mode: auto
+        state: started
+
+  when: openvpn_client_as_service
+  tags:
+    - configuration
