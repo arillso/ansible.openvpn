@@ -16,3 +16,5 @@ openvpn_tlsauth: |
 openvpn_ca: |
 
 openvpn_key: |
+
+openvpn_client_as_service: false
