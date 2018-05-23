@@ -26,6 +26,7 @@ None
 | openvpn_tlsauth | | |
 | openvpn_ca | | |
 | openvpn_key | | |
+| openvpn_client_as_service | false | defines if Openvpn runs as service |
 
 ## Dependencies
 
@@ -40,6 +41,10 @@ None
 ```
 
 ## Changelog
+
+### 1.1
+
+* add support Openvpn runs as service.
 
 ### 1.0
 
