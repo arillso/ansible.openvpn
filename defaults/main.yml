@@ -18,3 +18,5 @@ openvpn_ca: |
 openvpn_key: |
 
 openvpn_client_as_service: false
+
+openvpn_auth_user_pass: 

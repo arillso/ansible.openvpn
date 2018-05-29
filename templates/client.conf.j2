@@ -1,15 +1,20 @@
 dev tun
+keepalive 10 60
 persist-tun
 persist-key
+proto udp
 cipher AES-256-CBC
 ncp-ciphers AES-256-GCM:AES-128-GCM
 auth SHA256
 tls-client
 client
 resolv-retry infinite
+{% if openvpn_auth_user_pass %}
 auth-user-pass
+{% endif %}
 remote-cert-tls server
 remote {{ openvpn_remote }}
+comp-lzo
 
 {% for route in openvpn_route %}
 route {{ route }}
@@ -22,9 +27,9 @@ route {{ route }}
 {% endif %}
 
 {% if openvpn_cert is defined %}
-<ca>
+<cert>
 {{ openvpn_cert }}
-</ca>
+</cert>
 {% endif %}
 
 {% if openvpn_key is defined %}
