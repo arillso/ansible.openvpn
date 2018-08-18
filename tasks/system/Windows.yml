@@ -11,7 +11,7 @@
 - name: Create OpenVPN config file
   win_template:
     src: client.conf.j2
-    dest: "C:\\Program Files\\OpenVPN\\config\\{{ openvpn_name }}"
+    dest: "C:\\Program Files\\OpenVPN\\config\\{{ openvpn_name }}.ovpn"
   tags:
     - configuration
 
