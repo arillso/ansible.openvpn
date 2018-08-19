@@ -14,7 +14,9 @@ auth-user-pass
 {% endif %}
 remote-cert-tls server
 remote {{ openvpn_remote }}
+{% if openvpn_comp_lzo is defined %}
 comp-lzo
+{% endif %}
 
 {% for route in openvpn_route %}
 route {{ route }}
