@@ -14,7 +14,7 @@ auth-user-pass
 {% endif %}
 remote-cert-tls server
 remote {{ openvpn_remote }}
-{% if openvpn_comp_lzo is defined %}
+{% if openvpn_comp_lzo %}
 comp-lzo
 {% endif %}
 
