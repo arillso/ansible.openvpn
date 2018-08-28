@@ -43,6 +43,10 @@ None
 
 ## Changelog
 
+### 1.3
+
+* add enabled and disable openvpn client on Windows.
+
 ### 1.1
 
 * add support Openvpn runs as service.
