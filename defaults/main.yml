@@ -8,3 +8,4 @@ openvpn_verifyx509name:
 openvpn_comp_lzo: false
 openvpn_client_as_service: false
 openvpn_auth_user_pass: false
+openvpn_client_enabled: false

@@ -27,6 +27,7 @@ None
 | openvpn_ca | | |
 | openvpn_key | | |
 | openvpn_client_as_service | false | defines if Openvpn runs as service |
+| openvpn_client_enabled | false | |
 
 ## Dependencies
 
@@ -41,6 +42,10 @@ None
 ```
 
 ## Changelog
+
+### 1.3
+
+* add enabled and disable openvpn client on Windows.
 
 ### 1.1
 
