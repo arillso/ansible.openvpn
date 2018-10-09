@@ -1,6 +1,13 @@
 ---
 # tasks file for arillso.openvpn
 
+- name: gather facts from chocolatey
+  win_chocolatey_facts:
+  when: ansible_chocolatey is undefined
+  tags:
+    - configuration
+    - packages
+
 - block:
 
     - name: Install openvpn
@@ -35,4 +42,6 @@
       tags:
         - configuration
 
-  when: openvpn_client_enabled
+  when: >
+    openvpn_client_enabled and (chocolatey_packages is undefined or chocolatey_packages['openvpn'] is defined) or
+    chocolatey_packages is defined and chocolatey_packages['openvpn'] is defined
